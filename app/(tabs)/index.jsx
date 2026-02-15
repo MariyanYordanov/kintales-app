@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
@@ -20,8 +20,10 @@ import {
 } from '../../lib/utils/eventHelpers';
 import EventSection from '../../components/dashboard/EventSection';
 import StoryPromptBanner from '../../components/dashboard/StoryPromptBanner';
+import HeritageBanner from '../../components/dashboard/HeritageBanner';
 import EmptyDashboard from '../../components/dashboard/EmptyDashboard';
 import Button from '../../components/ui/Button';
+import { isDismissed, dismiss } from '../../lib/utils/heritageBannerStorage';
 import { colors } from '../../constants/colors';
 
 export default function Dashboard() {
@@ -35,6 +37,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState(null);
+  const [showHeritageBanner, setShowHeritageBanner] = useState(false);
 
   const loadData = useCallback(async () => {
     try {
@@ -75,6 +78,22 @@ export default function Dashboard() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
+
+  // Check heritage banner visibility when relatives change
+  useEffect(() => {
+    if (relatives.length === 0) {
+      setShowHeritageBanner(false);
+      return;
+    }
+    const livingCount = relatives.filter((r) => r.status === 'ALIVE').length;
+    if (livingCount > 1) {
+      setShowHeritageBanner(false);
+      return;
+    }
+    isDismissed()
+      .then((dismissed) => setShowHeritageBanner(!dismissed))
+      .catch(() => setShowHeritageBanner(false));
+  }, [relatives]);
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -169,6 +188,20 @@ export default function Dashboard() {
             {t('dashboard.subtitle')}
           </Text>
         </View>
+
+        {/* Heritage Banner */}
+        {showHeritageBanner ? (
+          <View className="px-6 pt-4">
+            <HeritageBanner
+              onGuardian={() => router.push('/settings/guardians')}
+              onLegacyKey={() => router.push('/settings/legacy-key')}
+              onDismiss={() => {
+                dismiss();
+                setShowHeritageBanner(false);
+              }}
+            />
+          </View>
+        ) : null}
 
         {/* Story Prompt Banner */}
         {storyRelative ? (

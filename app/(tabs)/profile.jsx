@@ -9,9 +9,11 @@ import {
   RefreshControl,
   ActionSheetIOS,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { useAuth } from '../../hooks/useAuth';
 import { useForm } from '../../hooks/useForm';
 import { useImagePicker } from '../../hooks/useImagePicker';
@@ -35,6 +37,7 @@ function formatDate(isoString, language) {
 
 export default function Profile() {
   const { t, i18n } = useTranslation();
+  const router = useRouter();
   const { user, setUser, logout } = useAuth();
   const { pickFromCamera, pickFromLibrary } = useImagePicker();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -296,6 +299,38 @@ export default function Profile() {
                 icon="checkmark-outline"
               />
             </View>
+
+            {/* Separator */}
+            <View className="h-px bg-border my-6" />
+
+            {/* Settings Section */}
+            <TouchableOpacity
+              onPress={() => router.push('/settings/guardians')}
+              className="flex-row items-center bg-surface rounded-2xl p-4 mb-3"
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.guardians')}
+            >
+              <Ionicons name="shield-outline" size={22} color={colors.text.primary} />
+              <Text className="font-sans-medium text-base text-text-primary flex-1 ml-3">
+                {t('settings.guardians')}
+              </Text>
+              <Ionicons name="chevron-forward" size={18} color={colors.text.muted} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => router.push('/settings/legacy-key')}
+              className="flex-row items-center bg-surface rounded-2xl p-4 mb-6"
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.legacyKey')}
+            >
+              <Ionicons name="key-outline" size={22} color={colors.text.primary} />
+              <Text className="font-sans-medium text-base text-text-primary flex-1 ml-3">
+                {t('settings.legacyKey')}
+              </Text>
+              <Ionicons name="chevron-forward" size={18} color={colors.text.muted} />
+            </TouchableOpacity>
 
             {/* Logout Button */}
             <Button

@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "KinTales"
+  },
+  "onboarding": {
+    "screen1": {
+      "title": "Your Family Story",
+      "subtitle": "Preserve memories, photos, and voices of the people you love."
+    },
+    "screen2": {
+      "title": "Family Tree",
+      "subtitle": "Build an interactive family tree that connects generations."
+    },
+    "screen3": {
+      "title": "Voices & Stories",
+      "subtitle": "Record voice stories. A voice is the most precious memory."
+    },
+    "screen4": {
+      "title": "Preserve the Legacy",
+      "subtitle": "Your family's history — preserved for future generations."
+    },
+    "next": "Next",
+    "skip": "Skip",
+    "getStarted": "Get Started"
+  },
+  "auth": {
+    "login": "Sign In",
+    "register": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "fullName": "Full name",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signInGoogle": "Sign in with Google",
+    "logout": "Sign Out"
+  },
+  "tabs": {
+    "home": "Home",
+    "tree": "Tree",
+    "feed": "Stories",
+    "profile": "Profile"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "done": "Done",
+    "search": "Search",
+    "noData": "No data",
+    "somethingWentWrong": "Something went wrong. Please try again."
+  },
+  "errors": {
+    "network": "No internet connection.",
+    "serverError": "Server error. Please try again later.",
+    "unauthorized": "Your session expired. Please sign in again.",
+    "unknown": "An unexpected error occurred."
+  }
+}

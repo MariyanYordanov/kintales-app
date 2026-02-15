@@ -55,6 +55,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="timeline"
+        options={{
+          title: t('tabs.timeline'),
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="time-outline" size={size} color={color} />
+          ),
+          tabBarAccessibilityLabel: t('tabs.timeline'),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: t('tabs.profile'),

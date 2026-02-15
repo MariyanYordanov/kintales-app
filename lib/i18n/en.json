@@ -205,6 +205,7 @@
     "home": "Home",
     "tree": "Tree",
     "feed": "Stories",
+    "timeline": "Timeline",
     "profile": "Profile"
   },
   "common": {
@@ -358,6 +359,22 @@
     "sendError": "Error sending comment.",
     "deleteError": "Error deleting comment.",
     "loadError": "Failed to load comments."
+  },
+  "timeline": {
+    "title": "Timeline",
+    "filterAll": "All",
+    "fromYear": "From year",
+    "toYear": "To year",
+    "sortNewest": "Newest",
+    "sortOldest": "Oldest",
+    "birthOf": "Birth of {{name}}",
+    "deathOf": "Passing of {{name}}",
+    "marriageOf": "Wedding of {{nameA}} & {{nameB}}",
+    "storyAbout": "Story about {{name}}",
+    "storyGeneral": "Family story",
+    "emptyTitle": "No entries",
+    "emptySubtitle": "Add dates and stories to see your family timeline.",
+    "loadError": "Failed to load timeline."
   },
   "errors": {
     "network": "No internet connection.",

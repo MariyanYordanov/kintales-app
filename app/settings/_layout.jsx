@@ -37,6 +37,10 @@ export default function SettingsLayout() {
         name="privacy"
         options={{ title: t('privacy.title') }}
       />
+      <Stack.Screen
+        name="notifications"
+        options={{ title: t('notifications.settingsTitle') }}
+      />
     </Stack>
   );
 }

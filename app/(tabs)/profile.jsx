@@ -17,6 +17,7 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '../../hooks/useAuth';
 import { useForm } from '../../hooks/useForm';
 import { useImagePicker } from '../../hooks/useImagePicker';
+import { useNotifications } from '../../lib/notifications/notificationContext';
 import { validateProfileForm } from '../../lib/validators/authValidators';
 import { getProfile, updateProfile, uploadAvatar } from '../../services/profile.service';
 import Avatar from '../../components/profile/Avatar';
@@ -40,6 +41,7 @@ export default function Profile() {
   const router = useRouter();
   const { user, setUser, logout } = useAuth();
   const { pickFromCamera, pickFromLibrary } = useImagePicker();
+  const { unreadCount } = useNotifications();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 
@@ -207,10 +209,30 @@ export default function Profile() {
           }
         >
           <View className="flex-1 px-6 pt-8 pb-8">
-            {/* Screen Title */}
-            <Text className="font-sans-bold text-3xl text-text-primary mb-8 text-center">
-              {t('profile.title')}
-            </Text>
+            {/* Screen Title + Notification Bell */}
+            <View className="flex-row items-center justify-center mb-8">
+              <Text className="font-sans-bold text-3xl text-text-primary text-center flex-1">
+                {t('profile.title')}
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.push('/notifications')}
+                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+                accessibilityRole="button"
+                accessibilityLabel={t('notifications.title')}
+              >
+                <Ionicons name="notifications-outline" size={26} color={colors.text.primary} />
+                {unreadCount > 0 ? (
+                  <View
+                    className="absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full items-center justify-center px-1"
+                    style={{ backgroundColor: colors.primary.DEFAULT }}
+                  >
+                    <Text className="font-sans-bold text-white" style={{ fontSize: 10 }}>
+                      {unreadCount > 99 ? '99+' : unreadCount}
+                    </Text>
+                  </View>
+                ) : null}
+              </TouchableOpacity>
+            </View>
 
             {/* Avatar Section */}
             <View className="items-center mb-6">
@@ -304,6 +326,30 @@ export default function Profile() {
             <View className="h-px bg-border my-6" />
 
             {/* Settings Section */}
+            <TouchableOpacity
+              onPress={() => router.push('/settings/notifications')}
+              className="flex-row items-center bg-surface rounded-2xl p-4 mb-3"
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.notifications')}
+            >
+              <Ionicons name="notifications-outline" size={22} color={colors.text.primary} />
+              <Text className="font-sans-medium text-base text-text-primary flex-1 ml-3">
+                {t('settings.notifications')}
+              </Text>
+              {unreadCount > 0 ? (
+                <View
+                  className="min-w-[22px] h-[22px] rounded-full items-center justify-center px-1.5 mr-2"
+                  style={{ backgroundColor: colors.primary.DEFAULT }}
+                >
+                  <Text className="font-sans-bold text-white" style={{ fontSize: 11 }}>
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </Text>
+                </View>
+              ) : null}
+              <Ionicons name="chevron-forward" size={18} color={colors.text.muted} />
+            </TouchableOpacity>
+
             <TouchableOpacity
               onPress={() => router.push('/settings/guardians')}
               className="flex-row items-center bg-surface rounded-2xl p-4 mb-3"

@@ -482,12 +482,36 @@
     "anonymizeSuccess": "Роднината е анонимизиран/а.",
     "anonymizeError": "Грешка при анонимизиране."
   },
+  "notifications": {
+    "title": "Известия",
+    "settingsTitle": "Настройки за известия",
+    "enable": "Включи push известия",
+    "enabled": "Push известията са включени",
+    "disabled": "Push известията са изключени",
+    "enableDescription": "Получавайте известия за рождени дни, именни дни, помени и други важни събития от вашето семейно дърво.",
+    "permissionDenied": "Известията са блокирани от устройството. Отидете в Настройки на устройството, за да ги разрешите.",
+    "noNotifications": "Няма известия",
+    "noNotificationsDescription": "Когато имате нови събития, ще се появят тук.",
+    "markAllRead": "Маркирай всички",
+    "today": "Днес",
+    "earlier": "По-рано",
+    "error": "Грешка при зареждане на известията.",
+    "notificationTypes": "Какви известия ще получавате:",
+    "typeBirthday": "Рождени дни на роднини",
+    "typeNameDay": "Именни дни",
+    "typeCommemoration": "Помени и годишнини",
+    "typeMarriage": "Годишнини от сватби",
+    "typeDeathPending": "Потвърждения за смърт",
+    "typeLegacy": "Напомняния за наследство",
+    "typeOnThisDay": "На тази дата — исторически моменти"
+  },
   "settings": {
     "guardians": "Пазители на дървото",
     "legacyKey": "Наследствен ключ",
     "exportData": "Изтегляне на данни",
     "privacy": "Поверителност",
-    "deleteAccount": "Изтриване на акаунт"
+    "deleteAccount": "Изтриване на акаунт",
+    "notifications": "Известия"
   },
   "errors": {
     "network": "Няма интернет връзка.",

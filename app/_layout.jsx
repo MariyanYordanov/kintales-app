@@ -12,6 +12,7 @@ import {
 } from '@expo-google-fonts/plus-jakarta-sans';
 import { AuthProvider } from '../lib/auth/authContext';
 import { SocketProvider } from '../lib/socket/socketContext';
+import { NotificationProvider } from '../lib/notifications/notificationContext';
 import { ErrorBoundary } from '../components/ui/ErrorBoundary';
 import '../lib/i18n';
 
@@ -39,15 +40,18 @@ export default function RootLayout() {
     <ErrorBoundary>
       <AuthProvider>
         <SocketProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="onboarding" />
-            <Stack.Screen name="(auth)" />
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="tree" options={{ headerShown: false }} />
-            <Stack.Screen name="settings" options={{ headerShown: false }} />
-          </Stack>
-          <StatusBar style="dark" />
+          <NotificationProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="onboarding" />
+              <Stack.Screen name="(auth)" />
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="tree" options={{ headerShown: false }} />
+              <Stack.Screen name="settings" options={{ headerShown: false }} />
+              <Stack.Screen name="notifications" options={{ headerShown: false }} />
+            </Stack>
+            <StatusBar style="dark" />
+          </NotificationProvider>
         </SocketProvider>
       </AuthProvider>
     </ErrorBoundary>

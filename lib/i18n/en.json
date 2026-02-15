@@ -482,12 +482,36 @@
     "anonymizeSuccess": "Relative has been anonymized.",
     "anonymizeError": "Error during anonymization."
   },
+  "notifications": {
+    "title": "Notifications",
+    "settingsTitle": "Notification Settings",
+    "enable": "Enable push notifications",
+    "enabled": "Push notifications are enabled",
+    "disabled": "Push notifications are disabled",
+    "enableDescription": "Receive notifications for birthdays, name days, commemorations, and other important events from your family tree.",
+    "permissionDenied": "Notifications are blocked by your device. Go to your device Settings to enable them.",
+    "noNotifications": "No notifications",
+    "noNotificationsDescription": "When you have new events, they will appear here.",
+    "markAllRead": "Mark all read",
+    "today": "Today",
+    "earlier": "Earlier",
+    "error": "Error loading notifications.",
+    "notificationTypes": "What notifications you will receive:",
+    "typeBirthday": "Relatives' birthdays",
+    "typeNameDay": "Name days",
+    "typeCommemoration": "Commemorations and anniversaries",
+    "typeMarriage": "Wedding anniversaries",
+    "typeDeathPending": "Death confirmations",
+    "typeLegacy": "Legacy reminders",
+    "typeOnThisDay": "On this day — historical moments"
+  },
   "settings": {
     "guardians": "Tree Guardians",
     "legacyKey": "Legacy Key",
     "exportData": "Download Data",
     "privacy": "Privacy",
-    "deleteAccount": "Delete Account"
+    "deleteAccount": "Delete Account",
+    "notifications": "Notifications"
   },
   "errors": {
     "network": "No internet connection.",

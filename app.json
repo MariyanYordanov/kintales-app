@@ -32,6 +32,13 @@
       "expo-localization",
       "expo-font",
       [
+        "expo-image-picker",
+        {
+          "photosPermission": "KinTales needs access to your photos to set your profile picture.",
+          "cameraPermission": "KinTales needs access to your camera to take a profile photo."
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",

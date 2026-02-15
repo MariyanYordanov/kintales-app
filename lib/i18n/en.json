@@ -34,7 +34,44 @@
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "signInGoogle": "Sign in with Google",
-    "logout": "Sign Out"
+    "logout": "Sign Out",
+    "loginSubtitle": "Welcome back to KinTales",
+    "registerSubtitle": "Create your family story",
+    "forgotPasswordSubtitle": "Enter your email and we'll send you a reset link.",
+    "preferredLanguage": "Preferred language",
+    "sendResetLink": "Send Reset Link",
+    "resetEmailSent": "Check your email for a password reset link.",
+    "backToLogin": "Back to Sign In",
+    "or": "or",
+    "googleComingSoon": "Google sign-in will be available soon.",
+    "passwordRequirements": {
+      "minLength": "8+ characters",
+      "uppercase": "Uppercase letter",
+      "lowercase": "Lowercase letter",
+      "digit": "A number"
+    },
+    "errors": {
+      "invalidCredentials": "Invalid email or password.",
+      "emailExists": "This email is already registered.",
+      "tooManyAttempts": "Too many attempts. Please try again later."
+    }
+  },
+  "validation": {
+    "emailRequired": "Email is required.",
+    "emailInvalid": "Please enter a valid email address.",
+    "emailTooLong": "Email must be 255 characters or less.",
+    "passwordRequired": "Password is required.",
+    "passwordTooShort": "Password must be at least 8 characters.",
+    "passwordTooLong": "Password must be 128 characters or less.",
+    "passwordNeedsUppercase": "Password must include an uppercase letter.",
+    "passwordNeedsLowercase": "Password must include a lowercase letter.",
+    "passwordNeedsDigit": "Password must include a number.",
+    "confirmPasswordRequired": "Please confirm your password.",
+    "passwordsMismatch": "Passwords do not match.",
+    "fullNameRequired": "Full name is required.",
+    "fullNameTooShort": "Full name must be at least 2 characters.",
+    "fullNameTooLong": "Full name must be 200 characters or less.",
+    "languageInvalid": "Please select a valid language."
   },
   "tabs": {
     "home": "Home",
@@ -54,7 +91,8 @@
     "done": "Done",
     "search": "Search",
     "noData": "No data",
-    "somethingWentWrong": "Something went wrong. Please try again."
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "comingSoon": "Coming Soon"
   },
   "errors": {
     "network": "No internet connection.",

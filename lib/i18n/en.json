@@ -94,7 +94,11 @@
     "addFirstRelative": "Add First Relative",
     "addRelative": "Add Relative",
     "relativesCount": "{{count}} relatives",
-    "loadError": "Failed to load family tree."
+    "loadError": "Failed to load family tree.",
+    "viewTree": "Tree",
+    "viewList": "List",
+    "singlePersonHint": "Add relatives to see your family tree.",
+    "personTapPlaceholder": "Profile will be available soon."
   },
   "relative": {
     "formTitle": "Add Relative",

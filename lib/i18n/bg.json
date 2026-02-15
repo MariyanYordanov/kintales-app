@@ -34,7 +34,44 @@
     "noAccount": "Нямате акаунт?",
     "hasAccount": "Имате акаунт?",
     "signInGoogle": "Вход с Google",
-    "logout": "Изход"
+    "logout": "Изход",
+    "loginSubtitle": "Добре дошли обратно в KinTales",
+    "registerSubtitle": "Създайте историята на семейството си",
+    "forgotPasswordSubtitle": "Въведете имейла си и ще ви изпратим линк за нулиране на паролата.",
+    "preferredLanguage": "Предпочитан език",
+    "sendResetLink": "Изпрати линк",
+    "resetEmailSent": "Проверете имейла си за линк за нулиране на паролата.",
+    "backToLogin": "Обратно към Вход",
+    "or": "или",
+    "googleComingSoon": "Входът с Google ще бъде достъпен скоро.",
+    "passwordRequirements": {
+      "minLength": "8+ символа",
+      "uppercase": "Главна буква",
+      "lowercase": "Малка буква",
+      "digit": "Цифра"
+    },
+    "errors": {
+      "invalidCredentials": "Грешен имейл или парола.",
+      "emailExists": "Този имейл е вече регистриран.",
+      "tooManyAttempts": "Твърде много опити. Опитайте по-късно."
+    }
+  },
+  "validation": {
+    "emailRequired": "Имейлът е задължителен.",
+    "emailInvalid": "Моля, въведете валиден имейл адрес.",
+    "emailTooLong": "Имейлът трябва да е до 255 символа.",
+    "passwordRequired": "Паролата е задължителна.",
+    "passwordTooShort": "Паролата трябва да е поне 8 символа.",
+    "passwordTooLong": "Паролата трябва да е до 128 символа.",
+    "passwordNeedsUppercase": "Паролата трябва да съдържа главна буква.",
+    "passwordNeedsLowercase": "Паролата трябва да съдържа малка буква.",
+    "passwordNeedsDigit": "Паролата трябва да съдържа цифра.",
+    "confirmPasswordRequired": "Моля, потвърдете паролата си.",
+    "passwordsMismatch": "Паролите не съвпадат.",
+    "fullNameRequired": "Пълното име е задължително.",
+    "fullNameTooShort": "Пълното име трябва да е поне 2 символа.",
+    "fullNameTooLong": "Пълното име трябва да е до 200 символа.",
+    "languageInvalid": "Моля, изберете валиден език."
   },
   "tabs": {
     "home": "Начало",
@@ -54,7 +91,8 @@
     "done": "Готово",
     "search": "Търси",
     "noData": "Няма данни",
-    "somethingWentWrong": "Нещо се обърка. Опитайте отново."
+    "somethingWentWrong": "Нещо се обърка. Опитайте отново.",
+    "comingSoon": "Очаквайте скоро"
   },
   "errors": {
     "network": "Няма интернет връзка.",

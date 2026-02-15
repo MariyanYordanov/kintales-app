@@ -11,3 +11,7 @@ export function getTreeById(treeId) {
 export function getTreeRelatives(treeId) {
   return api.get(`/api/trees/${treeId}/relatives`);
 }
+
+export function getTreeRelationships(treeId) {
+  return api.get(`/api/trees/${treeId}/relationships`);
+}

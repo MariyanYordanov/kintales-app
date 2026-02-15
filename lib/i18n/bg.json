@@ -94,7 +94,11 @@
     "addFirstRelative": "Добави първия роднина",
     "addRelative": "Добави роднина",
     "relativesCount": "{{count}} роднини",
-    "loadError": "Грешка при зареждане на семейното дърво."
+    "loadError": "Грешка при зареждане на семейното дърво.",
+    "viewTree": "Дърво",
+    "viewList": "Списък",
+    "singlePersonHint": "Добавете роднини, за да видите семейното дърво.",
+    "personTapPlaceholder": "Профилът ще бъде достъпен скоро."
   },
   "relative": {
     "formTitle": "Добавяне на роднина",

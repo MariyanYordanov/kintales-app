@@ -1,99 +1,32 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  RefreshControl,
   Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import { getUserTrees, getTreeRelatives } from '../../services/tree.service';
+import { FamilyTree } from '@kintales/tree-view';
+import { getUserTrees, getTreeRelatives, getTreeRelationships } from '../../services/tree.service';
+import { mapRelativesToPeople, mapRelationshipsToTreeFormat } from '../../lib/utils/treeDataMapper';
+import { violetTreeTheme } from '../../constants/treeTheme';
 import { colors } from '../../constants/colors';
 import Button from '../../components/ui/Button';
-
-const STATUS_ICONS = {
-  ALIVE: null,
-  DECEASED: 'flower-outline',
-  MISSING: 'help-circle-outline',
-  UNKNOWN: 'help-outline',
-};
-
-function getInitials(name) {
-  if (!name) return '?';
-  return name
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join('');
-}
-
-function formatBirthYear(relative) {
-  if (!relative.birthYear) return '';
-  let text = String(relative.birthYear);
-  if (relative.deathYear) {
-    text += ` — ${relative.deathYear}`;
-  }
-  return text;
-}
-
-function RelativeItem({ item, onPress }) {
-  const statusIcon = STATUS_ICONS[item.status];
-
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      className="flex-row items-center px-4 py-3 bg-surface rounded-2xl mb-2"
-      accessibilityRole="button"
-      accessibilityLabel={item.fullName}
-    >
-      {/* Avatar initials */}
-      <View className="w-12 h-12 rounded-full bg-primary items-center justify-center mr-3">
-        <Text className="font-sans-bold text-base text-white">
-          {getInitials(item.fullName)}
-        </Text>
-      </View>
-
-      {/* Name + dates */}
-      <View className="flex-1">
-        <Text className="font-sans-semibold text-base text-text-primary">
-          {item.fullName}
-        </Text>
-        {formatBirthYear(item) ? (
-          <Text className="font-sans text-sm text-text-muted mt-0.5">
-            {formatBirthYear(item)}
-          </Text>
-        ) : null}
-      </View>
-
-      {/* Status icon */}
-      {statusIcon ? (
-        <Ionicons name={statusIcon} size={18} color={colors.text.muted} />
-      ) : null}
-
-      <Ionicons
-        name="chevron-forward"
-        size={18}
-        color={colors.text.muted}
-        style={{ marginLeft: 8 }}
-      />
-    </TouchableOpacity>
-  );
-}
+import RelativesList from '../../components/tree/RelativesList';
 
 export default function Tree() {
   const { t } = useTranslation();
   const router = useRouter();
   const [treeId, setTreeId] = useState(null);
   const [relatives, setRelatives] = useState([]);
+  const [relationships, setRelationships] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [viewMode, setViewMode] = useState('tree');
 
   const loadData = useCallback(async () => {
     try {
@@ -108,16 +41,21 @@ export default function Tree() {
       const tree = trees[0];
       setTreeId(tree.id);
 
-      const { data: relativesData } = await getTreeRelatives(tree.id);
-      setRelatives(relativesData.data || []);
-    } catch {
+      const [relativesRes, relationshipsRes] = await Promise.all([
+        getTreeRelatives(tree.id),
+        getTreeRelationships(tree.id),
+      ]);
+
+      setRelatives(relativesRes.data.data || []);
+      setRelationships(relationshipsRes.data.data || []);
+    } catch (error) {
+      console.error('Failed to load tree data:', error);
       Alert.alert(t('common.error'), t('tree.loadError'));
     } finally {
       setIsLoading(false);
     }
   }, [t]);
 
-  // Reload on screen focus (e.g. after adding a relative)
   useFocusEffect(
     useCallback(() => {
       loadData();
@@ -135,6 +73,24 @@ export default function Tree() {
       router.push({ pathname: '/tree/add-relative', params: { treeId } });
     }
   }, [treeId, router]);
+
+  const handlePersonTap = useCallback((person) => {
+    Alert.alert(person.name, t('tree.personTapPlaceholder'));
+  }, [t]);
+
+  const handleListItemPress = useCallback(() => {
+    // TODO Phase 2.3: navigate to person/[id]
+  }, []);
+
+  const treePeople = useMemo(
+    () => mapRelativesToPeople(relatives),
+    [relatives],
+  );
+
+  const treeRelationships = useMemo(
+    () => mapRelationshipsToTreeFormat(relationships),
+    [relationships],
+  );
 
   // Loading state
   if (isLoading) {
@@ -177,7 +133,7 @@ export default function Tree() {
   return (
     <SafeAreaView className="flex-1 bg-background" edges={['top']}>
       {/* Header */}
-      <View className="px-6 pt-6 pb-4">
+      <View className="px-6 pt-6 pb-3">
         <Text className="font-sans-bold text-3xl text-text-primary">
           {t('tree.title')}
         </Text>
@@ -186,29 +142,73 @@ export default function Tree() {
         </Text>
       </View>
 
-      {/* Relatives list */}
-      <FlatList
-        data={relatives}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <RelativeItem
-            item={item}
-            onPress={() => {
-              // TODO Phase 2.3: navigate to person/[id]
-            }}
-          />
-        )}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 100 }}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={handleRefresh}
-            tintColor={colors.primary.DEFAULT}
-            colors={[colors.primary.DEFAULT]}
-          />
-        }
-        showsVerticalScrollIndicator={false}
-      />
+      {/* View mode toggle */}
+      <View className="mx-6 mb-3">
+        <View className="flex-row bg-surface-secondary rounded-xl p-1">
+          <TouchableOpacity
+            onPress={() => setViewMode('tree')}
+            className={`flex-1 py-2 rounded-lg items-center ${viewMode === 'tree' ? 'bg-primary' : ''}`}
+            accessibilityRole="button"
+            accessibilityState={{ selected: viewMode === 'tree' }}
+            accessibilityLabel={t('tree.viewTree')}
+          >
+            <Text
+              className={`text-sm ${viewMode === 'tree' ? 'text-white font-sans-semibold' : 'text-text-secondary font-sans-medium'}`}
+            >
+              {t('tree.viewTree')}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setViewMode('list')}
+            className={`flex-1 py-2 rounded-lg items-center ${viewMode === 'list' ? 'bg-primary' : ''}`}
+            accessibilityRole="button"
+            accessibilityState={{ selected: viewMode === 'list' }}
+            accessibilityLabel={t('tree.viewList')}
+          >
+            <Text
+              className={`text-sm ${viewMode === 'list' ? 'text-white font-sans-semibold' : 'text-text-secondary font-sans-medium'}`}
+            >
+              {t('tree.viewList')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Content — keep FamilyTree mounted to preserve pan/zoom state */}
+      <View style={{ flex: 1, display: viewMode === 'tree' ? 'flex' : 'none' }}>
+        <FamilyTree
+          people={treePeople}
+          relationships={treeRelationships}
+          theme="custom"
+          customTheme={violetTreeTheme}
+          onPersonTap={handlePersonTap}
+          photoShape="circle"
+          deceasedStyle="none"
+          showPhotos
+          showDates
+          enablePan
+          enableZoom
+          minZoom={0.3}
+          maxZoom={3.0}
+        />
+        {treePeople.length === 1 && treeRelationships.length === 0 ? (
+          <View className="absolute bottom-20 left-0 right-0 items-center px-6">
+            <View className="bg-surface px-4 py-3 rounded-2xl" style={{ shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3 }}>
+              <Text className="font-sans text-sm text-text-secondary text-center">
+                {t('tree.singlePersonHint')}
+              </Text>
+            </View>
+          </View>
+        ) : null}
+      </View>
+      {viewMode === 'list' ? (
+        <RelativesList
+          relatives={relatives}
+          onPressItem={handleListItemPress}
+          isRefreshing={isRefreshing}
+          onRefresh={handleRefresh}
+        />
+      ) : null}
 
       {/* FAB */}
       <TouchableOpacity

@@ -89,7 +89,10 @@
     "captionTooLong": "Caption must be 500 characters or less.",
     "titleTooLong": "Title must be 200 characters or less.",
     "photoDateInvalid": "Date: if day is set, month is required; if month is set, year is required.",
-    "photoDateOutOfRange": "Year must be between 1700 and 2100."
+    "photoDateOutOfRange": "Year must be between 1700 and 2100.",
+    "deathYearRequired": "Year of passing is required.",
+    "deathTimeInvalid": "Time must be in HH:MM format (e.g. 14:30).",
+    "causeOfDeathTooLong": "Cause must be 2000 characters or less."
   },
   "tree": {
     "title": "Family Tree",
@@ -249,6 +252,30 @@
     "pickFile": "Pick Audio File",
     "photoOf": "Photo {{index}} of {{total}}",
     "uploadPartialError": "{{success}}/{{total}} uploaded successfully. Failed: {{failed}}"
+  },
+  "death": {
+    "recordDeath": "Record passing of {{name}}",
+    "recordDeathTitle": "Record Passing",
+    "deathDate": "Date of passing",
+    "deathTime": "Time of passing",
+    "deathTimePlaceholder": "e.g. 14:30",
+    "causeOfDeath": "Cause of passing",
+    "causeOfDeathPlaceholder": "Optional — free text...",
+    "causeOfDeathNote": "Visible only to you and the tree owner.",
+    "recordSuccess": "Record created. Awaiting confirmation from family members.",
+    "recordSuccessSolo": "Record created. Will be confirmed automatically after 48 hours.",
+    "recordError": "Error creating the record.",
+    "confirmationPrompt": "It was recorded that {{name}} passed away on {{date}}. Do you confirm?",
+    "confirmButton": "Confirm",
+    "disputeButton": "Dispute",
+    "confirmSuccess": "Thank you for confirming.",
+    "confirmError": "Error confirming.",
+    "disputeSuccess": "Your dispute has been recorded.",
+    "disputeError": "Error recording dispute.",
+    "alreadyDeceased": "This person is already marked as deceased.",
+    "alreadyPending": "There is already a pending record for this person.",
+    "pendingLabel": "Awaiting confirmation",
+    "respectfulNote": "This record requires confirmation from other family members."
   },
   "errors": {
     "network": "No internet connection.",

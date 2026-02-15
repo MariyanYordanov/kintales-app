@@ -20,6 +20,8 @@ import {
   getRelativeAudio,
 } from '../../services/relatives.service';
 import { deletePhoto, deleteAudio } from '../../services/media.service';
+import { getTreeDeathRecords, confirmDeathRecord } from '../../services/death.service';
+import { useAuth } from '../../lib/auth/authContext';
 import { usePhotoPicker } from '../../hooks/usePhotoPicker';
 import { formatLifeSpan } from '../../lib/utils/dateFormatter';
 import Avatar from '../../components/profile/Avatar';
@@ -27,6 +29,7 @@ import StatusBadge from '../../components/person/StatusBadge';
 import PhotoGallery from '../../components/person/PhotoGallery';
 import AudioList from '../../components/person/AudioList';
 import PhotoUploadForm from '../../components/media/PhotoUploadForm';
+import DeathConfirmationBanner from '../../components/death/DeathConfirmationBanner';
 import Button from '../../components/ui/Button';
 import { colors } from '../../constants/colors';
 
@@ -36,6 +39,7 @@ export default function PersonProfile() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { t } = useTranslation();
+  const { user } = useAuth();
   const { pickFromCamera, pickPhotos, isProcessing } = usePhotoPicker();
 
   const [person, setPerson] = useState(null);
@@ -47,6 +51,10 @@ export default function PersonProfile() {
   const [isBioExpanded, setIsBioExpanded] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Death confirmation state
+  const [pendingDeathRecord, setPendingDeathRecord] = useState(null);
+  const [isDeathActionLoading, setIsDeathActionLoading] = useState(false);
+
   // Photo upload state
   const [pendingPhotos, setPendingPhotos] = useState(null);
   const [isUploadFormVisible, setIsUploadFormVisible] = useState(false);
@@ -56,7 +64,23 @@ export default function PersonProfile() {
       setError(null);
 
       const { data: personRes } = await getRelativeById(id);
-      setPerson(personRes.data);
+      const personData = personRes.data;
+      setPerson(personData);
+
+      // Check for pending death records (only for alive persons)
+      if (personData.status === 'ALIVE' && personData.treeId) {
+        try {
+          const { data: deathRes } = await getTreeDeathRecords(personData.treeId);
+          const pending = (deathRes.data || []).find(
+            (dr) => dr.relativeId === id && dr.status === 'PENDING',
+          );
+          setPendingDeathRecord(pending || null);
+        } catch {
+          // Non-critical — banner just won't show
+        }
+      } else {
+        setPendingDeathRecord(null);
+      }
 
       try {
         const [photosRes, audioRes] = await Promise.all([
@@ -204,6 +228,39 @@ export default function PersonProfile() {
     }
   }, [t]);
 
+  // Death confirmation handlers
+  const handleConfirmDeath = useCallback(async () => {
+    if (!pendingDeathRecord) return;
+    setIsDeathActionLoading(true);
+    try {
+      await confirmDeathRecord(pendingDeathRecord.id, true);
+      Alert.alert(t('common.done'), t('death.confirmSuccess'));
+      setPendingDeathRecord(null);
+      setIsLoading(true);
+      loadData();
+    } catch (err) {
+      console.error('Failed to confirm death:', err);
+      Alert.alert(t('common.error'), t('death.confirmError'));
+    } finally {
+      setIsDeathActionLoading(false);
+    }
+  }, [pendingDeathRecord, loadData, t]);
+
+  const handleDisputeDeath = useCallback(async () => {
+    if (!pendingDeathRecord) return;
+    setIsDeathActionLoading(true);
+    try {
+      await confirmDeathRecord(pendingDeathRecord.id, false);
+      Alert.alert(t('common.done'), t('death.disputeSuccess'));
+      setPendingDeathRecord(null);
+    } catch (err) {
+      console.error('Failed to dispute death:', err);
+      Alert.alert(t('common.error'), t('death.disputeError'));
+    } finally {
+      setIsDeathActionLoading(false);
+    }
+  }, [pendingDeathRecord, t]);
+
   // Loading state
   if (isLoading) {
     return (
@@ -274,6 +331,19 @@ export default function PersonProfile() {
           </View>
         </View>
 
+        {/* Death Confirmation Banner */}
+        {pendingDeathRecord && person.status === 'ALIVE' && pendingDeathRecord.reportedBy !== user?.id ? (
+          <View className="px-6 pt-2 pb-2">
+            <DeathConfirmationBanner
+              deathRecord={pendingDeathRecord}
+              personName={person.fullName}
+              onConfirm={handleConfirmDeath}
+              onDispute={handleDisputeDeath}
+              isLoading={isDeathActionLoading}
+            />
+          </View>
+        ) : null}
+
         {/* Bio Section */}
         <View className="px-6 py-4">
           <Text className="font-sans-semibold text-lg text-text-primary mb-2">
@@ -342,6 +412,27 @@ export default function PersonProfile() {
             onPress={handleEdit}
             icon="create-outline"
           />
+          {/* Record Death button — only for alive persons without pending record */}
+          {person.status === 'ALIVE' && !pendingDeathRecord ? (
+            <View className="mt-3">
+              <Button
+                title={t('death.recordDeath', { name: person.fullName.split(' ')[0] })}
+                onPress={() => router.push(`/tree/${id}/record-death`)}
+                variant="outline"
+                icon="flower-outline"
+              />
+            </View>
+          ) : null}
+
+          {/* Pending death record label — shown to the reporter */}
+          {person.status === 'ALIVE' && pendingDeathRecord && pendingDeathRecord.reportedBy === user?.id ? (
+            <View className="mt-3 bg-surface-secondary rounded-xl p-3">
+              <Text className="font-sans text-sm text-text-secondary text-center">
+                {t('death.pendingLabel')}
+              </Text>
+            </View>
+          ) : null}
+
           <View className="mt-3">
             <Button
               title={t('person.delete')}

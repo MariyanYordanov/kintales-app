@@ -13,6 +13,7 @@ export default function TreeLayout() {
       <Stack.Screen name="[id]" />
       <Stack.Screen name="[id]/edit" />
       <Stack.Screen name="[id]/add-audio" />
+      <Stack.Screen name="[id]/record-death" />
     </Stack>
   );
 }

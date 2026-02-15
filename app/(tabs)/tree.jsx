@@ -75,12 +75,12 @@ export default function Tree() {
   }, [treeId, router]);
 
   const handlePersonTap = useCallback((person) => {
-    Alert.alert(person.name, t('tree.personTapPlaceholder'));
-  }, [t]);
+    router.push(`/tree/${person.id}`);
+  }, [router]);
 
-  const handleListItemPress = useCallback(() => {
-    // TODO Phase 2.3: navigate to person/[id]
-  }, []);
+  const handleListItemPress = useCallback((item) => {
+    router.push(`/tree/${item.id}`);
+  }, [router]);
 
   const treePeople = useMemo(
     () => mapRelativesToPeople(relatives),

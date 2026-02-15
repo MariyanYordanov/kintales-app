@@ -15,3 +15,11 @@ export function updateRelative(relativeId, data) {
 export function deleteRelative(relativeId) {
   return api.delete(`/api/relatives/${relativeId}`);
 }
+
+export function getRelativePhotos(relativeId) {
+  return api.get(`/api/relatives/${relativeId}/photos`);
+}
+
+export function getRelativeAudio(relativeId) {
+  return api.get(`/api/relatives/${relativeId}/audio`);
+}

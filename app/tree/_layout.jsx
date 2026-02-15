@@ -1,0 +1,15 @@
+import { Stack } from 'expo-router';
+
+export default function TreeLayout() {
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: '#FAFAF9' },
+        animation: 'slide_from_right',
+      }}
+    >
+      <Stack.Screen name="add-relative" />
+    </Stack>
+  );
+}

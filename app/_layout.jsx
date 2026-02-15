@@ -42,6 +42,7 @@ export default function RootLayout() {
           <Stack.Screen name="onboarding" />
           <Stack.Screen name="(auth)" />
           <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="tree" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="dark" />
       </AuthProvider>

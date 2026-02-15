@@ -25,6 +25,18 @@ export default function SettingsLayout() {
         name="legacy-key"
         options={{ title: t('legacy.title') }}
       />
+      <Stack.Screen
+        name="export-data"
+        options={{ title: t('export.title') }}
+      />
+      <Stack.Screen
+        name="delete-account"
+        options={{ title: t('deleteAccount.title') }}
+      />
+      <Stack.Screen
+        name="privacy"
+        options={{ title: t('privacy.title') }}
+      />
     </Stack>
   );
 }

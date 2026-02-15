@@ -18,6 +18,7 @@ import {
   deleteRelative,
   getRelativePhotos,
   getRelativeAudio,
+  anonymizeRelative,
 } from '../../services/relatives.service';
 import { deletePhoto, deleteAudio } from '../../services/media.service';
 import { getTreeDeathRecords, confirmDeathRecord } from '../../services/death.service';
@@ -261,6 +262,33 @@ export default function PersonProfile() {
     }
   }, [pendingDeathRecord, t]);
 
+  const handleAnonymize = useCallback(() => {
+    if (!person) return;
+
+    Alert.alert(
+      t('privacy.anonymizeConfirm'),
+      t('privacy.anonymizeConfirmMessage', { name: person.fullName }),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('privacy.anonymizeButton'),
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await anonymizeRelative(id);
+              Alert.alert(t('common.done'), t('privacy.anonymizeSuccess'));
+              setIsLoading(true);
+              loadData();
+            } catch (err) {
+              console.error('Failed to anonymize relative:', err);
+              Alert.alert(t('common.error'), t('privacy.anonymizeError'));
+            }
+          },
+        },
+      ],
+    );
+  }, [person, id, t, loadData]);
+
   // Loading state
   if (isLoading) {
     return (
@@ -430,6 +458,18 @@ export default function PersonProfile() {
               <Text className="font-sans text-sm text-text-secondary text-center">
                 {t('death.pendingLabel')}
               </Text>
+            </View>
+          ) : null}
+
+          {/* Anonymize — only for living relatives */}
+          {person.status === 'ALIVE' ? (
+            <View className="mt-3">
+              <Button
+                title={t('privacy.anonymizeButton')}
+                onPress={handleAnonymize}
+                variant="outline"
+                icon="eye-off-outline"
+              />
             </View>
           ) : null}
 

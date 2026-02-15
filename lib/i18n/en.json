@@ -438,9 +438,56 @@
     "legacyKeyButton": "Legacy Key",
     "remindLater": "Remind me later"
   },
+  "export": {
+    "title": "Download Data",
+    "subtitle": "Download all your data — photos, audio recordings, stories, and family tree.",
+    "downloadAll": "Download All",
+    "downloading": "Preparing archive...",
+    "downloadSuccess": "Data is ready for sharing.",
+    "downloadError": "Error downloading data.",
+    "noTree": "You have no family tree to export.",
+    "includes": "The archive includes:",
+    "includesPhotos": "All photos (original quality)",
+    "includesAudio": "All audio recordings",
+    "includesStories": "All stories as text",
+    "includesTree": "Family tree (JSON)",
+    "includesBios": "Relative biographies"
+  },
+  "deleteAccount": {
+    "title": "Delete Account",
+    "subtitle": "This action is irreversible.",
+    "warning": "The following will be deleted:",
+    "warningProfile": "Your profile and personal data",
+    "warningStories": "All stories you authored",
+    "warningComments": "All your comments",
+    "warningFiles": "All uploaded files",
+    "keepNote": "Relatives in the tree will not be deleted — they are part of family history.",
+    "confirmLabel": "Type DELETE to confirm",
+    "confirmPlaceholder": "DELETE",
+    "deleteButton": "Delete My Account",
+    "confirmAlert": "Are you sure?",
+    "confirmAlertMessage": "This action is irreversible. All your data will be deleted.",
+    "success": "Account deleted.",
+    "error": "Error deleting account."
+  },
+  "privacy": {
+    "title": "Privacy",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "anonymize": "Anonymization",
+    "anonymizeInfo": "A living relative can request anonymization — the name is replaced with \"Relative\", the photo is removed, relationships are preserved.",
+    "anonymizeButton": "Anonymize",
+    "anonymizeConfirm": "Anonymize Relative",
+    "anonymizeConfirmMessage": "{{name}}'s name will be replaced with \"Relative\" and the photo will be removed. This is irreversible.",
+    "anonymizeSuccess": "Relative has been anonymized.",
+    "anonymizeError": "Error during anonymization."
+  },
   "settings": {
     "guardians": "Tree Guardians",
-    "legacyKey": "Legacy Key"
+    "legacyKey": "Legacy Key",
+    "exportData": "Download Data",
+    "privacy": "Privacy",
+    "deleteAccount": "Delete Account"
   },
   "errors": {
     "network": "No internet connection.",

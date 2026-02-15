@@ -21,6 +21,12 @@ const VARIANTS = {
     spinnerColor: colors.primary.DEFAULT,
     iconColor: colors.primary.DEFAULT,
   },
+  danger: {
+    container: 'bg-[#EF4444] rounded-2xl',
+    text: 'text-white',
+    spinnerColor: '#FFFFFF',
+    iconColor: '#FFFFFF',
+  },
 };
 
 const SIZES = {

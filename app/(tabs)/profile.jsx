@@ -320,7 +320,7 @@ export default function Profile() {
 
             <TouchableOpacity
               onPress={() => router.push('/settings/legacy-key')}
-              className="flex-row items-center bg-surface rounded-2xl p-4 mb-6"
+              className="flex-row items-center bg-surface rounded-2xl p-4 mb-3"
               activeOpacity={0.7}
               accessibilityRole="button"
               accessibilityLabel={t('settings.legacyKey')}
@@ -328,6 +328,51 @@ export default function Profile() {
               <Ionicons name="key-outline" size={22} color={colors.text.primary} />
               <Text className="font-sans-medium text-base text-text-primary flex-1 ml-3">
                 {t('settings.legacyKey')}
+              </Text>
+              <Ionicons name="chevron-forward" size={18} color={colors.text.muted} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => router.push('/settings/export-data')}
+              className="flex-row items-center bg-surface rounded-2xl p-4 mb-3"
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.exportData')}
+            >
+              <Ionicons name="download-outline" size={22} color={colors.text.primary} />
+              <Text className="font-sans-medium text-base text-text-primary flex-1 ml-3">
+                {t('settings.exportData')}
+              </Text>
+              <Ionicons name="chevron-forward" size={18} color={colors.text.muted} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => router.push('/settings/privacy')}
+              className="flex-row items-center bg-surface rounded-2xl p-4 mb-3"
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.privacy')}
+            >
+              <Ionicons name="lock-closed-outline" size={22} color={colors.text.primary} />
+              <Text className="font-sans-medium text-base text-text-primary flex-1 ml-3">
+                {t('settings.privacy')}
+              </Text>
+              <Ionicons name="chevron-forward" size={18} color={colors.text.muted} />
+            </TouchableOpacity>
+
+            {/* Separator */}
+            <View className="h-px bg-border my-3" />
+
+            <TouchableOpacity
+              onPress={() => router.push('/settings/delete-account')}
+              className="flex-row items-center bg-surface rounded-2xl p-4 mb-6"
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.deleteAccount')}
+            >
+              <Ionicons name="trash-outline" size={22} color="#EF4444" />
+              <Text className="font-sans-medium text-base flex-1 ml-3" style={{ color: '#EF4444' }}>
+                {t('settings.deleteAccount')}
               </Text>
               <Ionicons name="chevron-forward" size={18} color={colors.text.muted} />
             </TouchableOpacity>

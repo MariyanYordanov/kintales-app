@@ -16,6 +16,7 @@ function StyledTextInput(
     secureTextEntry,
     keyboardType = 'default',
     autoCapitalize = 'sentences',
+    autoCorrect,
     autoComplete,
     returnKeyType,
     onSubmitEditing,
@@ -78,6 +79,7 @@ function StyledTextInput(
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
+          autoCorrect={autoCorrect}
           autoComplete={autoComplete}
           returnKeyType={returnKeyType}
           onSubmitEditing={onSubmitEditing}

@@ -23,3 +23,7 @@ export function getRelativePhotos(relativeId) {
 export function getRelativeAudio(relativeId) {
   return api.get(`/api/relatives/${relativeId}/audio`);
 }
+
+export function anonymizeRelative(relativeId) {
+  return api.post(`/api/relatives/${relativeId}/anonymize`);
+}

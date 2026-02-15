@@ -71,7 +71,24 @@
     "fullNameRequired": "Пълното име е задължително.",
     "fullNameTooShort": "Пълното име трябва да е поне 2 символа.",
     "fullNameTooLong": "Пълното име трябва да е до 200 символа.",
-    "languageInvalid": "Моля, изберете валиден език."
+    "languageInvalid": "Моля, изберете валиден език.",
+    "bioTooLong": "Биографията трябва да е до 1000 символа."
+  },
+  "profile": {
+    "title": "Профил",
+    "editProfile": "Редактиране на профила",
+    "bio": "За мен",
+    "bioPlaceholder": "Разкажете нещо за себе си...",
+    "memberSince": "Член от",
+    "uploadPhoto": "Промяна на снимката",
+    "takePhoto": "Направи снимка",
+    "chooseFromLibrary": "Избери от галерията",
+    "saveSuccess": "Профилът е обновен успешно.",
+    "saveError": "Грешка при запазване на профила.",
+    "avatarUploadError": "Грешка при качване на снимката.",
+    "logoutConfirm": "Изход от профила",
+    "logoutConfirmMessage": "Сигурни ли сте, че искате да излезете?",
+    "language": "Език"
   },
   "tabs": {
     "home": "Начало",

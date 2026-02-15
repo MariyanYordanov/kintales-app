@@ -22,6 +22,8 @@ function StyledTextInput(
     onBlur,
     editable = true,
     accessibilityLabel,
+    multiline = false,
+    numberOfLines,
   },
   ref,
 ) {
@@ -55,8 +57,8 @@ function StyledTextInput(
       ) : null}
 
       <View
-        className={`flex-row items-center bg-surface rounded-2xl border px-4 ${borderClass}`}
-        style={{ minHeight: 56 }}
+        className={`flex-row ${multiline ? 'items-start' : 'items-center'} bg-surface rounded-2xl border px-4 ${borderClass}`}
+        style={{ minHeight: multiline ? 120 : 56 }}
       >
         {icon ? (
           <Ionicons
@@ -82,6 +84,9 @@ function StyledTextInput(
           onFocus={handleFocus}
           onBlur={handleBlur}
           editable={editable}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
+          textAlignVertical={multiline ? 'top' : 'auto'}
           accessibilityLabel={accessibilityLabel || label}
           className="font-sans text-base text-text-primary flex-1 py-4"
           style={{ flex: 1 }}

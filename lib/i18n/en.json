@@ -71,7 +71,24 @@
     "fullNameRequired": "Full name is required.",
     "fullNameTooShort": "Full name must be at least 2 characters.",
     "fullNameTooLong": "Full name must be 200 characters or less.",
-    "languageInvalid": "Please select a valid language."
+    "languageInvalid": "Please select a valid language.",
+    "bioTooLong": "Bio must be 1000 characters or less."
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "bio": "About me",
+    "bioPlaceholder": "Tell something about yourself...",
+    "memberSince": "Member since",
+    "uploadPhoto": "Change photo",
+    "takePhoto": "Take Photo",
+    "chooseFromLibrary": "Choose from Library",
+    "saveSuccess": "Profile updated successfully.",
+    "saveError": "Failed to save profile.",
+    "avatarUploadError": "Failed to upload photo.",
+    "logoutConfirm": "Sign Out",
+    "logoutConfirmMessage": "Are you sure you want to sign out?",
+    "language": "Language"
   },
   "tabs": {
     "home": "Home",

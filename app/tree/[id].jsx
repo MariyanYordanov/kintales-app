@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  ActionSheetIOS,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, useFocusEffect } from 'expo-router';
@@ -17,11 +19,14 @@ import {
   getRelativePhotos,
   getRelativeAudio,
 } from '../../services/relatives.service';
+import { deletePhoto, deleteAudio } from '../../services/media.service';
+import { usePhotoPicker } from '../../hooks/usePhotoPicker';
 import { formatLifeSpan } from '../../lib/utils/dateFormatter';
 import Avatar from '../../components/profile/Avatar';
 import StatusBadge from '../../components/person/StatusBadge';
 import PhotoGallery from '../../components/person/PhotoGallery';
 import AudioList from '../../components/person/AudioList';
+import PhotoUploadForm from '../../components/media/PhotoUploadForm';
 import Button from '../../components/ui/Button';
 import { colors } from '../../constants/colors';
 
@@ -31,6 +36,7 @@ export default function PersonProfile() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { t } = useTranslation();
+  const { pickFromCamera, pickPhotos, isProcessing } = usePhotoPicker();
 
   const [person, setPerson] = useState(null);
   const [photos, setPhotos] = useState([]);
@@ -41,6 +47,10 @@ export default function PersonProfile() {
   const [isBioExpanded, setIsBioExpanded] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Photo upload state
+  const [pendingPhotos, setPendingPhotos] = useState(null);
+  const [isUploadFormVisible, setIsUploadFormVisible] = useState(false);
+
   const loadData = useCallback(async () => {
     try {
       setError(null);
@@ -48,7 +58,6 @@ export default function PersonProfile() {
       const { data: personRes } = await getRelativeById(id);
       setPerson(personRes.data);
 
-      // Media is non-critical — load separately
       try {
         const [photosRes, audioRes] = await Promise.all([
           getRelativePhotos(id),
@@ -108,6 +117,92 @@ export default function PersonProfile() {
       ],
     );
   }, [person, id, t, router]);
+
+  // Photo upload flow
+  const openPhotoActionSheet = useCallback(async (mode) => {
+    let result = null;
+
+    if (mode === 'camera') {
+      result = await pickFromCamera();
+    } else if (mode === 'library') {
+      result = await pickPhotos({ multiple: false });
+    } else if (mode === 'bulk') {
+      result = await pickPhotos({ multiple: true });
+    }
+
+    if (result && result.length > 0) {
+      setPendingPhotos(result);
+      setIsUploadFormVisible(true);
+    }
+  }, [pickFromCamera, pickPhotos]);
+
+  const handleAddPhoto = useCallback(() => {
+    if (Platform.OS === 'ios') {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: [t('common.cancel'), t('media.takePhoto'), t('media.chooseFromLibrary'), t('media.bulkUpload')],
+          cancelButtonIndex: 0,
+        },
+        (buttonIndex) => {
+          if (buttonIndex === 1) openPhotoActionSheet('camera');
+          else if (buttonIndex === 2) openPhotoActionSheet('library');
+          else if (buttonIndex === 3) openPhotoActionSheet('bulk');
+        },
+      );
+    } else {
+      Alert.alert(
+        t('media.addPhoto'),
+        null,
+        [
+          { text: t('media.takePhoto'), onPress: () => openPhotoActionSheet('camera') },
+          { text: t('media.chooseFromLibrary'), onPress: () => openPhotoActionSheet('library') },
+          { text: t('media.bulkUpload'), onPress: () => openPhotoActionSheet('bulk') },
+          { text: t('common.cancel'), style: 'cancel' },
+        ],
+      );
+    }
+  }, [t, openPhotoActionSheet]);
+
+  const handlePhotoUploadSuccess = useCallback(async () => {
+    setIsUploadFormVisible(false);
+    setPendingPhotos(null);
+    try {
+      const { data: photosRes } = await getRelativePhotos(id);
+      setPhotos(photosRes.data.data || []);
+    } catch {
+      // Non-critical
+    }
+  }, [id]);
+
+  const handlePhotoUploadCancel = useCallback(() => {
+    setIsUploadFormVisible(false);
+    setPendingPhotos(null);
+  }, []);
+
+  const handlePhotoDeleted = useCallback(async (photoId) => {
+    try {
+      await deletePhoto(photoId);
+      setPhotos((prev) => prev.filter((p) => p.id !== photoId));
+    } catch (err) {
+      console.error('Failed to delete photo:', err);
+      Alert.alert(t('common.error'), t('person.deleteError'));
+    }
+  }, [t]);
+
+  // Audio handlers
+  const handleAddAudio = useCallback(() => {
+    router.push(`/tree/${id}/add-audio`);
+  }, [id, router]);
+
+  const handleAudioDeleted = useCallback(async (audioId) => {
+    try {
+      await deleteAudio(audioId);
+      setAudio((prev) => prev.filter((a) => a.id !== audioId));
+    } catch (err) {
+      console.error('Failed to delete audio:', err);
+      Alert.alert(t('common.error'), t('person.deleteError'));
+    }
+  }, [t]);
 
   // Loading state
   if (isLoading) {
@@ -208,7 +303,6 @@ export default function PersonProfile() {
           )}
         </View>
 
-        {/* Divider */}
         <View className="h-px bg-border mx-6" />
 
         {/* Photos Section */}
@@ -216,10 +310,14 @@ export default function PersonProfile() {
           <Text className="font-sans-semibold text-lg text-text-primary mb-3">
             {t('person.photos')}
           </Text>
-          <PhotoGallery photos={photos} isLoading={isMediaLoading} />
+          <PhotoGallery
+            photos={photos}
+            isLoading={isMediaLoading || isProcessing}
+            onAddPress={handleAddPhoto}
+            onPhotoDeleted={handlePhotoDeleted}
+          />
         </View>
 
-        {/* Divider */}
         <View className="h-px bg-border mx-6" />
 
         {/* Audio Section */}
@@ -227,10 +325,14 @@ export default function PersonProfile() {
           <Text className="font-sans-semibold text-lg text-text-primary mb-3">
             {t('person.audioRecordings')}
           </Text>
-          <AudioList recordings={audio} isLoading={isMediaLoading} />
+          <AudioList
+            recordings={audio}
+            isLoading={isMediaLoading}
+            onAddPress={handleAddAudio}
+            onAudioDeleted={handleAudioDeleted}
+          />
         </View>
 
-        {/* Divider */}
         <View className="h-px bg-border mx-6" />
 
         {/* Actions */}
@@ -251,6 +353,17 @@ export default function PersonProfile() {
           </View>
         </View>
       </ScrollView>
+
+      {/* Photo Upload Form Modal */}
+      {pendingPhotos && pendingPhotos.length > 0 ? (
+        <PhotoUploadForm
+          photos={pendingPhotos}
+          relativeId={id}
+          visible={isUploadFormVisible}
+          onSuccess={handlePhotoUploadSuccess}
+          onCancel={handlePhotoUploadCancel}
+        />
+      ) : null}
     </SafeAreaView>
   );
 }

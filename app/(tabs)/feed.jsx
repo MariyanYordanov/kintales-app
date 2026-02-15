@@ -23,6 +23,7 @@ import {
 } from '../../lib/utils/storyHelpers';
 import StoryCard from '../../components/stories/StoryCard';
 import CreateStoryForm from '../../components/stories/CreateStoryForm';
+import CommentsModal from '../../components/stories/CommentsModal';
 import EmptyFeed from '../../components/stories/EmptyFeed';
 import PhotoLightbox from '../../components/media/PhotoLightbox';
 import Button from '../../components/ui/Button';
@@ -44,6 +45,7 @@ export default function Feed() {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState(null);
   const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [commentsModal, setCommentsModal] = useState({ visible: false, storyId: null });
   const [lightbox, setLightbox] = useState({ visible: false, photos: [], index: 0 });
 
   // ── Data loading ──
@@ -181,6 +183,22 @@ export default function Feed() {
     setCreateModalVisible(false);
   }, []);
 
+  const handleOpenComments = useCallback((storyId) => {
+    setCommentsModal({ visible: true, storyId });
+  }, []);
+
+  const handleCloseComments = useCallback(() => {
+    setCommentsModal({ visible: false, storyId: null });
+  }, []);
+
+  const handleCommentsChanged = useCallback((storyId, updatedComments) => {
+    setStories((prev) =>
+      prev.map((s) =>
+        s.id === storyId ? { ...s, comments: updatedComments } : s,
+      ),
+    );
+  }, []);
+
   // ── Render helpers ──
 
   const renderStory = useCallback(({ item }) => {
@@ -193,11 +211,13 @@ export default function Feed() {
         authorInfo={authorInfo}
         relativeName={relName}
         isAuthor={item.authorId === user?.id}
+        currentUser={user}
         onPressPhoto={(index) => handleOpenLightbox(item, index)}
         onDelete={handleDeleteStory}
+        onPressComments={() => handleOpenComments(item.id)}
       />
     );
-  }, [user, t, relativesMap, handleOpenLightbox, handleDeleteStory]);
+  }, [user, t, relativesMap, handleOpenLightbox, handleDeleteStory, handleOpenComments]);
 
   const renderFooter = useCallback(() => {
     if (!isLoadingMore) return null;
@@ -331,6 +351,24 @@ export default function Feed() {
             onCancel={handleCloseCreate}
           />
         </SafeAreaView>
+      </Modal>
+
+      {/* Comments Modal */}
+      <Modal
+        visible={commentsModal.visible}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={handleCloseComments}
+      >
+        {commentsModal.storyId ? (
+          <CommentsModal
+            storyId={commentsModal.storyId}
+            onClose={handleCloseComments}
+            onCommentsChanged={(updatedComments) =>
+              handleCommentsChanged(commentsModal.storyId, updatedComments)
+            }
+          />
+        ) : null}
       </Modal>
     </SafeAreaView>
   );

@@ -6,18 +6,22 @@ import * as Clipboard from 'expo-clipboard';
 import Avatar from '../profile/Avatar';
 import AudioPlayer from '../media/AudioPlayer';
 import StoryPhotos from './StoryPhotos';
-import { formatRelativeTime, separateAttachments } from '../../lib/utils/storyHelpers';
+import { formatRelativeTime, separateAttachments, getAuthorInfo } from '../../lib/utils/storyHelpers';
 import { colors } from '../../constants/colors';
 
 const MAX_LINES_COLLAPSED = 8;
+
+const MAX_INLINE_COMMENTS = 2;
 
 export default function StoryCard({
   story,
   authorInfo,
   relativeName,
   isAuthor,
+  currentUser,
   onPressPhoto,
   onDelete,
+  onPressComments,
 }) {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -87,7 +91,12 @@ export default function StoryCard({
     }
   }, [isAuthor, t, handleCopy, handleDelete]);
 
-  const commentCount = story.comments?.length || 0;
+  const allComments = story.comments || [];
+  const commentCount = allComments.length;
+  const lastComments = useMemo(
+    () => allComments.slice(-MAX_INLINE_COMMENTS),
+    [allComments],
+  );
 
   return (
     <View className="bg-surface rounded-2xl mb-3 overflow-hidden">
@@ -167,19 +176,33 @@ export default function StoryCard({
         </View>
       ) : null}
 
-      {/* Footer: comment count */}
-      {commentCount > 0 ? (
-        <View className="px-4 pt-2 pb-3">
-          <View className="flex-row items-center">
-            <Ionicons name="chatbubble-outline" size={16} color={colors.text.muted} />
-            <Text className="font-sans text-sm text-text-muted ml-1">
-              {t('stories.comments', { count: commentCount })}
-            </Text>
-          </View>
-        </View>
-      ) : (
-        <View className="h-3" />
-      )}
+      {/* Footer: comments */}
+      <View className="px-4 pt-2 pb-3">
+        {/* Inline comment previews (last 2) */}
+        {lastComments.map((comment) => {
+          const cAuthor = getAuthorInfo(comment.authorId, currentUser, t);
+          return (
+            <View key={comment.id} className="flex-row mb-1.5">
+              <Text className="font-sans-semibold text-sm text-text-primary" numberOfLines={1}>
+                {cAuthor.name}
+              </Text>
+              <Text className="font-sans text-sm text-text-primary ml-1.5 flex-1" numberOfLines={1}>
+                {comment.content}
+              </Text>
+            </View>
+          );
+        })}
+
+        {/* "View all" / "Add comment" link */}
+        <TouchableOpacity onPress={onPressComments} className="flex-row items-center">
+          <Ionicons name="chatbubble-outline" size={16} color={colors.text.muted} />
+          <Text className="font-sans text-sm text-text-muted ml-1">
+            {commentCount > 0
+              ? t('comments.viewAll', { count: commentCount })
+              : t('comments.addFirst')}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

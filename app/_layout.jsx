@@ -11,6 +11,7 @@ import {
   PlusJakartaSans_700Bold,
 } from '@expo-google-fonts/plus-jakarta-sans';
 import { AuthProvider } from '../lib/auth/authContext';
+import { SocketProvider } from '../lib/socket/socketContext';
 import { ErrorBoundary } from '../components/ui/ErrorBoundary';
 import '../lib/i18n';
 
@@ -37,14 +38,16 @@ export default function RootLayout() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="onboarding" />
-          <Stack.Screen name="(auth)" />
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="tree" options={{ headerShown: false }} />
-        </Stack>
-        <StatusBar style="dark" />
+        <SocketProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="onboarding" />
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="tree" options={{ headerShown: false }} />
+          </Stack>
+          <StatusBar style="dark" />
+        </SocketProvider>
       </AuthProvider>
     </ErrorBoundary>
   );

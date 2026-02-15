@@ -10,6 +10,8 @@ export default function TreeLayout() {
       }}
     >
       <Stack.Screen name="add-relative" />
+      <Stack.Screen name="[id]" />
+      <Stack.Screen name="[id]/edit" />
     </Stack>
   );
 }

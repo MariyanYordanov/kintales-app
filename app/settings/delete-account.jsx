@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../hooks/useAuth';
@@ -40,6 +41,7 @@ export default function DeleteAccount() {
             setIsDeleting(true);
             try {
               await deleteAccount('DELETE_MY_ACCOUNT');
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
               await logout();
               router.replace('/(auth)/login');
             } catch (err) {

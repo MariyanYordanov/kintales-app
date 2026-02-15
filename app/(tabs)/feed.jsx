@@ -9,6 +9,8 @@ import {
   Alert,
   Modal,
 } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
@@ -27,6 +29,7 @@ import CommentsModal from '../../components/stories/CommentsModal';
 import EmptyFeed from '../../components/stories/EmptyFeed';
 import PhotoLightbox from '../../components/media/PhotoLightbox';
 import Button from '../../components/ui/Button';
+import { SkeletonStoryCard } from '../../components/ui/Skeleton';
 import { colors } from '../../constants/colors';
 
 const PAGE_SIZE = 20;
@@ -47,6 +50,11 @@ export default function Feed() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [commentsModal, setCommentsModal] = useState({ visible: false, storyId: null });
   const [lightbox, setLightbox] = useState({ visible: false, photos: [], index: 0 });
+
+  const fabScale = useSharedValue(1);
+  const fabStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: fabScale.value }],
+  }));
 
   // ── Data loading ──
 
@@ -154,9 +162,11 @@ export default function Feed() {
     try {
       await deleteStory(storyId);
       setStories((prev) => prev.filter((s) => s.id !== storyId));
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       Alert.alert(null, t('stories.deleteSuccess'));
     } catch (err) {
       console.error('Failed to delete story:', err);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert(t('common.error'), t('stories.deleteError'));
     }
   }, [t]);
@@ -237,8 +247,15 @@ export default function Feed() {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1 bg-background items-center justify-center" edges={['top']}>
-        <ActivityIndicator size="large" color={colors.primary.DEFAULT} />
+      <SafeAreaView className="flex-1 bg-background" edges={['top']}>
+        <View className="px-6 pt-6 pb-2">
+          <View className="bg-border rounded-lg w-2/5 h-9 mb-4" style={{ opacity: 0.3 }} />
+        </View>
+        <View className="px-4">
+          <SkeletonStoryCard />
+          <SkeletonStoryCard />
+          <SkeletonStoryCard />
+        </View>
       </SafeAreaView>
     );
   }
@@ -294,22 +311,26 @@ export default function Feed() {
 
       {/* FAB — Create Story */}
       {treeId ? (
-        <TouchableOpacity
-          onPress={handleOpenCreate}
-          className="absolute bottom-6 right-6 w-14 h-14 rounded-full items-center justify-center"
-          style={{
-            backgroundColor: colors.primary.DEFAULT,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.3,
-            shadowRadius: 6,
-            elevation: 8,
-          }}
-          accessibilityRole="button"
-          accessibilityLabel={t('stories.newStory')}
-        >
-          <Ionicons name="add" size={28} color="#FFFFFF" />
-        </TouchableOpacity>
+        <Animated.View className="absolute bottom-6 right-6" style={fabStyle}>
+          <TouchableOpacity
+            onPress={handleOpenCreate}
+            onPressIn={() => { fabScale.value = withSpring(0.9, { damping: 15 }); }}
+            onPressOut={() => { fabScale.value = withSpring(1, { damping: 15 }); }}
+            className="w-14 h-14 rounded-full items-center justify-center"
+            style={{
+              backgroundColor: colors.primary.DEFAULT,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 6,
+              elevation: 8,
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={t('stories.newStory')}
+          >
+            <Ionicons name="add" size={28} color="#FFFFFF" />
+          </TouchableOpacity>
+        </Animated.View>
       ) : null}
 
       {/* Photo Lightbox */}

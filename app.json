@@ -8,9 +8,18 @@
     "scheme": "kintales",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "net.kintales.app"
+      "bundleIdentifier": "net.kintales.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "KinTales needs access to your photos to set profile pictures and upload family photos.",
+        "NSCameraUsageDescription": "KinTales needs access to your camera to take photos for your family tree.",
+        "NSMicrophoneUsageDescription": "KinTales needs access to your microphone to record audio memories."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -20,7 +29,14 @@
         "backgroundColor": "#FAFAF9"
       },
       "edgeToEdgeEnabled": true,
-      "package": "net.kintales.app"
+      "package": "net.kintales.app",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "output": "static",
@@ -62,6 +78,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "TO_BE_CONFIGURED"
       }
     }
   }

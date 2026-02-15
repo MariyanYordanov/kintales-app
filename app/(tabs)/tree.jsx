@@ -3,9 +3,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
   Alert,
 } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,7 @@ import { violetTreeTheme } from '../../constants/treeTheme';
 import { colors } from '../../constants/colors';
 import Button from '../../components/ui/Button';
 import RelativesList from '../../components/tree/RelativesList';
+import { SkeletonEventCard } from '../../components/ui/Skeleton';
 
 export default function Tree() {
   const { t } = useTranslation();
@@ -27,6 +28,11 @@ export default function Tree() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [viewMode, setViewMode] = useState('tree');
+
+  const fabScale = useSharedValue(1);
+  const fabStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: fabScale.value }],
+  }));
 
   const loadData = useCallback(async () => {
     try {
@@ -95,8 +101,14 @@ export default function Tree() {
   // Loading state
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1 bg-background items-center justify-center" edges={['top']}>
-        <ActivityIndicator size="large" color={colors.primary.DEFAULT} />
+      <SafeAreaView className="flex-1 bg-background" edges={['top']}>
+        <View className="px-6 pt-6 pb-3">
+          <SkeletonEventCard />
+          <SkeletonEventCard />
+          <SkeletonEventCard />
+          <SkeletonEventCard />
+          <SkeletonEventCard />
+        </View>
       </SafeAreaView>
     );
   }
@@ -211,21 +223,25 @@ export default function Tree() {
       ) : null}
 
       {/* FAB */}
-      <TouchableOpacity
-        onPress={navigateToAddRelative}
-        className="absolute bottom-6 right-6 w-14 h-14 rounded-full bg-primary items-center justify-center"
-        style={{
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.2,
-          shadowRadius: 8,
-          elevation: 6,
-        }}
-        accessibilityRole="button"
-        accessibilityLabel={t('tree.addRelative')}
-      >
-        <Ionicons name="add" size={28} color="#FFFFFF" />
-      </TouchableOpacity>
+      <Animated.View className="absolute bottom-6 right-6" style={fabStyle}>
+        <TouchableOpacity
+          onPress={navigateToAddRelative}
+          onPressIn={() => { fabScale.value = withSpring(0.9, { damping: 15 }); }}
+          onPressOut={() => { fabScale.value = withSpring(1, { damping: 15 }); }}
+          className="w-14 h-14 rounded-full bg-primary items-center justify-center"
+          style={{
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.2,
+            shadowRadius: 8,
+            elevation: 6,
+          }}
+          accessibilityRole="button"
+          accessibilityLabel={t('tree.addRelative')}
+        >
+          <Ionicons name="add" size={28} color="#FFFFFF" />
+        </TouchableOpacity>
+      </Animated.View>
     </SafeAreaView>
   );
 }

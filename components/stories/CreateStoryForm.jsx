@@ -12,6 +12,7 @@ import {
 import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import * as DocumentPicker from 'expo-document-picker';
 import { usePhotoPicker } from '../../hooks/usePhotoPicker';
 import { useAudioRecorder } from '../../hooks/useAudioRecorder';
@@ -179,6 +180,7 @@ export default function CreateStoryForm({ treeId, relatives, onSuccess, onCancel
       ];
 
       const { data } = await createStory(treeId, trimmedContent, relativeId, files);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       Alert.alert(null, t('stories.createSuccess'));
       if (onSuccess) onSuccess(data.data);
     } catch (err) {

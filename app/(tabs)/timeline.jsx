@@ -26,6 +26,7 @@ import {
 import TimelineEntry from '../../components/timeline/TimelineEntry';
 import EmptyTimeline from '../../components/timeline/EmptyTimeline';
 import Button from '../../components/ui/Button';
+import { SkeletonTimelineEntry } from '../../components/ui/Skeleton';
 import { colors } from '../../constants/colors';
 
 const STORIES_LIMIT = 100;
@@ -188,8 +189,17 @@ export default function Timeline() {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1 bg-background items-center justify-center" edges={['top']}>
-        <ActivityIndicator size="large" color={colors.primary.DEFAULT} />
+      <SafeAreaView className="flex-1 bg-background" edges={['top']}>
+        <View className="px-6 pt-6 pb-2">
+          <View className="bg-border rounded-lg w-2/5 h-9 mb-4" style={{ opacity: 0.3 }} />
+        </View>
+        <View className="px-6">
+          <SkeletonTimelineEntry />
+          <SkeletonTimelineEntry />
+          <SkeletonTimelineEntry />
+          <SkeletonTimelineEntry />
+          <SkeletonTimelineEntry />
+        </View>
       </SafeAreaView>
     );
   }

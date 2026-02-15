@@ -23,6 +23,7 @@ import StoryPromptBanner from '../../components/dashboard/StoryPromptBanner';
 import HeritageBanner from '../../components/dashboard/HeritageBanner';
 import EmptyDashboard from '../../components/dashboard/EmptyDashboard';
 import Button from '../../components/ui/Button';
+import { SkeletonEventCard } from '../../components/ui/Skeleton';
 import { isDismissed, dismiss } from '../../lib/utils/heritageBannerStorage';
 import { colors } from '../../constants/colors';
 
@@ -130,8 +131,18 @@ export default function Dashboard() {
   // Loading state
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1 bg-background items-center justify-center" edges={['top']}>
-        <ActivityIndicator size="large" color={colors.primary.DEFAULT} />
+      <SafeAreaView className="flex-1 bg-background" edges={['top']}>
+        <View className="px-6 pt-6 pb-2">
+          <View className="bg-border rounded-lg w-3/5 h-9 mb-2" style={{ opacity: 0.3 }} />
+          <View className="bg-border rounded-lg w-2/5 h-4 mb-6" style={{ opacity: 0.2 }} />
+        </View>
+        <View className="px-6">
+          <SkeletonEventCard />
+          <SkeletonEventCard />
+          <SkeletonEventCard />
+          <SkeletonEventCard />
+          <SkeletonEventCard />
+        </View>
       </SafeAreaView>
     );
   }

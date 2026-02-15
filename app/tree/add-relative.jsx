@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { useForm } from '../../hooks/useForm';
 import { validateAddRelativeForm } from '../../lib/validators/relativeValidators';
 import { createRelative } from '../../services/relatives.service';
@@ -183,6 +184,7 @@ export default function AddRelative() {
           }
         }
 
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         Alert.alert(t('common.done'), t('relative.saveSuccess'));
         router.back();
       } catch (err) {

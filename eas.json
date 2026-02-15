@@ -1,0 +1,58 @@
+{
+  "cli": {
+    "version": ">= 13.3.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": false
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://api.kintales.net",
+        "EXPO_PUBLIC_WS_URL": "wss://api.kintales.net"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "ios": {
+        "simulator": false
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://api.kintales.net",
+        "EXPO_PUBLIC_WS_URL": "wss://api.kintales.net"
+      }
+    },
+    "production": {
+      "distribution": "store",
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://api.kintales.net",
+        "EXPO_PUBLIC_WS_URL": "wss://api.kintales.net"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "TO_BE_CONFIGURED",
+        "ascAppId": "TO_BE_CONFIGURED",
+        "appleTeamId": "TO_BE_CONFIGURED"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./google-play-service-account.json",
+        "track": "internal"
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { View, Text, TouchableOpacity, Alert, ActionSheetIOS, Platform } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
@@ -99,7 +100,10 @@ export default function StoryCard({
   );
 
   return (
-    <View className="bg-surface rounded-2xl mb-3 overflow-hidden">
+    <Animated.View
+      entering={FadeInDown.duration(400).springify()}
+      className="bg-surface rounded-2xl mb-3 overflow-hidden"
+    >
       {/* Header */}
       <View className="flex-row items-center p-4 pb-0">
         <Avatar
@@ -203,6 +207,6 @@ export default function StoryCard({
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </Animated.View>
   );
 }

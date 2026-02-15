@@ -156,6 +156,7 @@ export default function Register() {
               autoComplete="name"
               returnKeyType="next"
               onSubmitEditing={() => emailRef.current?.focus()}
+              testID="register-fullname-input"
             />
 
             <TextInput
@@ -172,6 +173,7 @@ export default function Register() {
               autoComplete="email"
               returnKeyType="next"
               onSubmitEditing={() => passwordRef.current?.focus()}
+              testID="register-email-input"
             />
 
             <TextInput
@@ -190,6 +192,7 @@ export default function Register() {
               autoComplete="new-password"
               returnKeyType="next"
               onSubmitEditing={() => confirmRef.current?.focus()}
+              testID="register-password-input"
             />
 
             {showPasswordChecks ? (
@@ -212,6 +215,7 @@ export default function Register() {
               autoComplete="new-password"
               returnKeyType="done"
               onSubmitEditing={() => handleSubmit(onRegister)}
+              testID="register-confirm-password-input"
             />
 
             <LanguageSelector
@@ -226,6 +230,7 @@ export default function Register() {
                 title={t('auth.register')}
                 onPress={() => handleSubmit(onRegister)}
                 loading={isSubmitting}
+                testID="register-submit-button"
               />
             </View>
 

@@ -118,6 +118,7 @@ export default function DeleteAccount() {
             autoCapitalize="characters"
             autoCorrect={false}
             icon="lock-closed-outline"
+            testID="delete-confirm-input"
           />
 
           {/* Delete button */}
@@ -129,6 +130,7 @@ export default function DeleteAccount() {
               disabled={!isConfirmed}
               icon="trash-outline"
               variant="danger"
+              testID="delete-confirm-button"
             />
           </View>
         </View>

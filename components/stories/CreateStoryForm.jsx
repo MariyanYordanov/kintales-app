@@ -213,6 +213,7 @@ export default function CreateStoryForm({ treeId, relatives, onSuccess, onCancel
             numberOfLines={6}
             maxLength={CONTENT_MAX}
             icon="create-outline"
+            testID="story-content-input"
           />
 
           {/* Person picker */}
@@ -362,6 +363,7 @@ export default function CreateStoryForm({ treeId, relatives, onSuccess, onCancel
           loading={isSubmitting}
           disabled={!canSubmit}
           icon="send-outline"
+          testID="story-save-button"
         />
       </View>
     </KeyboardAvoidingView>

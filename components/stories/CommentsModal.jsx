@@ -145,6 +145,7 @@ export default function CommentsModal({ storyId, onClose, onCommentsChanged }) {
               className="font-sans text-base text-text-primary"
               style={{ maxHeight: 80 }}
               returnKeyType="default"
+              testID="comments-input"
             />
           </View>
           <TouchableOpacity
@@ -156,6 +157,7 @@ export default function CommentsModal({ storyId, onClose, onCommentsChanged }) {
             }}
             accessibilityRole="button"
             accessibilityLabel={t('comments.send')}
+            testID="comments-submit-button"
           >
             {isSending ? (
               <ActivityIndicator size="small" color="#FFFFFF" />

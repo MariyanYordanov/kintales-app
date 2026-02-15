@@ -249,6 +249,7 @@ export default function AddRelative() {
               icon="person-outline"
               autoCapitalize="words"
               returnKeyType="next"
+              testID="add-relative-name-input"
             />
 
             {/* Status */}
@@ -376,6 +377,7 @@ export default function AddRelative() {
                 onPress={() => handleSubmit(handleSave)}
                 loading={isSubmitting}
                 icon="checkmark-outline"
+                testID="add-relative-save-button"
               />
             </View>
           </View>

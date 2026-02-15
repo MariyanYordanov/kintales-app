@@ -1,0 +1,45 @@
+appId: net.kintales.app
+name: "Auth - Login"
+tags:
+  - auth
+  - smoke
+
+env:
+  TEST_EMAIL: ${TEST_EMAIL}
+  TEST_PASSWORD: ${TEST_PASSWORD}
+
+---
+
+# Verify login screen elements are visible
+- assertVisible: "KinTales"
+- assertVisible:
+    id: "login-email-input"
+- assertVisible:
+    id: "login-password-input"
+- assertVisible:
+    id: "login-submit-button"
+
+# Test empty form submission (should show validation error)
+- tapOn:
+    id: "login-submit-button"
+
+# Fill in valid credentials
+- tapOn:
+    id: "login-email-input"
+- inputText: ${TEST_EMAIL}
+
+- tapOn:
+    id: "login-password-input"
+- inputText: ${TEST_PASSWORD}
+
+# Submit login
+- tapOn:
+    id: "login-submit-button"
+
+# Verify navigation to dashboard
+- assertVisible:
+    text: ".*"
+    timeout: 10000
+
+# Take screenshot for verification
+- takeScreenshot: "01-login-success"

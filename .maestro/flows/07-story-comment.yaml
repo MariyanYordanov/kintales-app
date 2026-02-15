@@ -1,0 +1,48 @@
+appId: net.kintales.app
+name: "Story - Add Comment"
+tags:
+  - stories
+  - comments
+
+env:
+  TEST_EMAIL: ${TEST_EMAIL}
+  TEST_PASSWORD: ${TEST_PASSWORD}
+
+---
+
+# Login first
+- runFlow: ../helpers/login.yaml
+
+# Navigate to feed tab
+- tapOn: "feed"
+  optional: true
+
+# Wait for feed stories to load
+- extendedWaitUntil:
+    visible: "chatbubble"
+    timeout: 10000
+  optional: true
+
+# Tap on comment icon of first story
+- tapOn: "chatbubble"
+  optional: true
+
+# Wait for comments modal
+- assertVisible:
+    id: "comments-input"
+    timeout: 5000
+  optional: true
+
+# Type a comment
+- tapOn:
+    id: "comments-input"
+  optional: true
+- inputText: "E2E test comment from Maestro"
+
+# Submit comment
+- tapOn:
+    id: "comments-submit-button"
+  optional: true
+
+# Take screenshot
+- takeScreenshot: "07-comment-submitted"

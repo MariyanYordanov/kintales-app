@@ -7,7 +7,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "test:e2e": "maestro test .maestro/flows",
+    "test:e2e:ios": "maestro test --platform ios .maestro/flows",
+    "test:e2e:android": "maestro test --platform android .maestro/flows"
   },
   "dependencies": {
     "@expo-google-fonts/plus-jakarta-sans": "^0.4.2",

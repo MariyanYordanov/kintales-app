@@ -1,0 +1,56 @@
+appId: net.kintales.app
+name: "Auth - Register"
+tags:
+  - auth
+
+env:
+  TEST_REGISTER_NAME: "Test User E2E"
+  TEST_REGISTER_EMAIL: "e2e-${TIMESTAMP}@test.kintales.net"
+  TEST_REGISTER_PASSWORD: "TestPass123"
+
+---
+
+# Navigate to register screen
+- tapOn:
+    id: "login-register-link"
+
+# Verify register screen elements
+- assertVisible:
+    id: "register-fullname-input"
+- assertVisible:
+    id: "register-email-input"
+- assertVisible:
+    id: "register-password-input"
+- assertVisible:
+    id: "register-confirm-password-input"
+- assertVisible:
+    id: "register-submit-button"
+
+# Fill in registration form
+- tapOn:
+    id: "register-fullname-input"
+- inputText: ${TEST_REGISTER_NAME}
+
+- tapOn:
+    id: "register-email-input"
+- inputText: ${TEST_REGISTER_EMAIL}
+
+- tapOn:
+    id: "register-password-input"
+- inputText: ${TEST_REGISTER_PASSWORD}
+
+- tapOn:
+    id: "register-confirm-password-input"
+- inputText: ${TEST_REGISTER_PASSWORD}
+
+# Take screenshot before submitting
+- takeScreenshot: "02-register-form-filled"
+
+# Submit registration
+- tapOn:
+    id: "register-submit-button"
+
+# Wait for navigation (success or error)
+- assertNotVisible:
+    id: "register-submit-button"
+    timeout: 10000

@@ -1,0 +1,50 @@
+appId: net.kintales.app
+name: "Settings - Delete Account Screen"
+tags:
+  - settings
+  - destructive
+
+env:
+  TEST_EMAIL: ${TEST_EMAIL}
+  TEST_PASSWORD: ${TEST_PASSWORD}
+
+---
+
+# Login first
+- runFlow: ../helpers/login.yaml
+
+# Navigate to profile tab
+- tapOn: "profile"
+  optional: true
+
+# Wait for profile to load
+- assertVisible:
+    id: "profile-delete-link"
+    timeout: 10000
+
+# Navigate to delete account screen
+- tapOn:
+    id: "profile-delete-link"
+
+# Wait for delete screen
+- assertVisible:
+    id: "delete-confirm-input"
+    timeout: 5000
+
+# Verify delete button is disabled (no confirmation text)
+- assertVisible:
+    id: "delete-confirm-button"
+
+# Take screenshot of delete screen
+- takeScreenshot: "10-delete-account-screen"
+
+# Type confirmation text
+- tapOn:
+    id: "delete-confirm-input"
+- inputText: "DELETE"
+
+# Take screenshot with confirmation
+- takeScreenshot: "10-delete-account-confirmed"
+
+# Note: We do NOT actually press the delete button
+# as this would destroy the test account

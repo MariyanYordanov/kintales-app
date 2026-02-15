@@ -216,7 +216,7 @@ export default function Dashboard() {
 
         {/* Story Prompt Banner */}
         {storyRelative ? (
-          <View className="px-6 pt-4">
+          <View className="px-6 pt-4" testID="dashboard-story-prompt">
             <StoryPromptBanner
               relative={storyRelative}
               onPress={handleEventPress}

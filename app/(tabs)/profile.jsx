@@ -291,6 +291,7 @@ export default function Profile() {
               icon="person-outline"
               autoCapitalize="words"
               returnKeyType="next"
+              testID="profile-name-input"
             />
 
             <TextInput
@@ -304,6 +305,7 @@ export default function Profile() {
               multiline
               numberOfLines={4}
               autoCapitalize="sentences"
+              testID="profile-bio-input"
             />
 
             <LanguageSelector
@@ -319,6 +321,7 @@ export default function Profile() {
                 onPress={() => handleSubmit(handleSaveProfile)}
                 loading={isSubmitting}
                 icon="checkmark-outline"
+                testID="profile-save-button"
               />
             </View>
 
@@ -332,6 +335,7 @@ export default function Profile() {
               activeOpacity={0.7}
               accessibilityRole="button"
               accessibilityLabel={t('settings.notifications')}
+              testID="profile-notifications-link"
             >
               <Ionicons name="notifications-outline" size={22} color={colors.text.primary} />
               <Text className="font-sans-medium text-base text-text-primary flex-1 ml-3">
@@ -384,6 +388,7 @@ export default function Profile() {
               activeOpacity={0.7}
               accessibilityRole="button"
               accessibilityLabel={t('settings.exportData')}
+              testID="profile-export-link"
             >
               <Ionicons name="download-outline" size={22} color={colors.text.primary} />
               <Text className="font-sans-medium text-base text-text-primary flex-1 ml-3">
@@ -415,6 +420,7 @@ export default function Profile() {
               activeOpacity={0.7}
               accessibilityRole="button"
               accessibilityLabel={t('settings.deleteAccount')}
+              testID="profile-delete-link"
             >
               <Ionicons name="trash-outline" size={22} color="#EF4444" />
               <Text className="font-sans-medium text-base flex-1 ml-3" style={{ color: '#EF4444' }}>
@@ -429,6 +435,7 @@ export default function Profile() {
               onPress={handleLogout}
               variant="outline"
               icon="log-out-outline"
+              testID="profile-logout-button"
             />
           </View>
         </ScrollView>

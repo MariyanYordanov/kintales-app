@@ -25,6 +25,7 @@ function StyledTextInput(
     accessibilityLabel,
     multiline = false,
     numberOfLines,
+    testID,
   },
   ref,
 ) {
@@ -90,6 +91,7 @@ function StyledTextInput(
           numberOfLines={numberOfLines}
           textAlignVertical={multiline ? 'top' : 'auto'}
           accessibilityLabel={accessibilityLabel || label}
+          testID={testID}
           className="font-sans text-base text-text-primary flex-1 py-4"
           style={{ flex: 1 }}
         />

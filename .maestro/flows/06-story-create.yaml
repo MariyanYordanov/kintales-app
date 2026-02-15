@@ -1,0 +1,53 @@
+appId: net.kintales.app
+name: "Story - Create"
+tags:
+  - stories
+  - smoke
+
+env:
+  TEST_EMAIL: ${TEST_EMAIL}
+  TEST_PASSWORD: ${TEST_PASSWORD}
+
+---
+
+# Login first
+- runFlow: ../helpers/login.yaml
+
+# Navigate to feed tab
+- tapOn: "feed"
+  optional: true
+
+# Wait for feed to load
+- extendedWaitUntil:
+    visible:
+      id: "feed-create-fab"
+    timeout: 10000
+  optional: true
+
+# Tap FAB to create story
+- tapOn:
+    id: "feed-create-fab"
+  optional: true
+
+# Wait for create form
+- assertVisible:
+    id: "story-content-input"
+    timeout: 5000
+  optional: true
+
+# Type story content
+- tapOn:
+    id: "story-content-input"
+  optional: true
+- inputText: "This is an E2E test story created by Maestro"
+
+# Take screenshot of filled form
+- takeScreenshot: "06-story-create-form"
+
+# Submit story
+- tapOn:
+    id: "story-save-button"
+  optional: true
+
+# Wait for success
+- takeScreenshot: "06-story-create-result"

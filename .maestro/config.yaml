@@ -1,0 +1,10 @@
+# Maestro E2E Test Configuration
+# https://maestro.mobile.dev/
+
+appId: net.kintales.app
+name: KinTales E2E Tests
+
+# Default timeout for element lookups (ms)
+# Increase if running on slow CI
+onFlowStart:
+  - clearState

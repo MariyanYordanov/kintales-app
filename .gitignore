@@ -45,3 +45,6 @@ app-example
 
 # EAS / Store credentials
 google-play-service-account.json
+
+# Maestro E2E screenshots
+maestro-screenshots/

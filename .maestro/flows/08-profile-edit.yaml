@@ -1,0 +1,50 @@
+appId: net.kintales.app
+name: "Profile - Edit"
+tags:
+  - profile
+  - smoke
+
+env:
+  TEST_EMAIL: ${TEST_EMAIL}
+  TEST_PASSWORD: ${TEST_PASSWORD}
+
+---
+
+# Login first
+- runFlow: ../helpers/login.yaml
+
+# Navigate to profile tab
+- tapOn: "profile"
+  optional: true
+
+# Wait for profile to load
+- assertVisible:
+    id: "profile-name-input"
+    timeout: 10000
+
+# Verify profile elements
+- assertVisible:
+    id: "profile-bio-input"
+- assertVisible:
+    id: "profile-save-button"
+- assertVisible:
+    id: "profile-notifications-link"
+- assertVisible:
+    id: "profile-export-link"
+- assertVisible:
+    id: "profile-logout-button"
+
+# Take screenshot of profile
+- takeScreenshot: "08-profile-screen"
+
+# Edit bio
+- tapOn:
+    id: "profile-bio-input"
+- inputText: "Updated bio from E2E test"
+
+# Save profile
+- tapOn:
+    id: "profile-save-button"
+
+# Take screenshot after save
+- takeScreenshot: "08-profile-saved"

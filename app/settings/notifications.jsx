@@ -96,6 +96,7 @@ export default function NotificationSettings() {
                 accessibilityRole="switch"
                 accessibilityLabel={t('notifications.enable')}
                 accessibilityState={{ checked: isEnabled }}
+                testID="notifications-toggle"
               />
             </View>
             <Text className="font-sans text-sm text-text-muted mt-2">

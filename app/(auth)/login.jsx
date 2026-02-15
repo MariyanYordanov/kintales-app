@@ -92,6 +92,7 @@ export default function Login() {
                 autoComplete="email"
                 returnKeyType="next"
                 onSubmitEditing={() => passwordRef.current?.focus()}
+                testID="login-email-input"
               />
 
               <TextInput
@@ -110,6 +111,7 @@ export default function Login() {
                 autoComplete="password"
                 returnKeyType="done"
                 onSubmitEditing={() => handleSubmit(onLogin)}
+                testID="login-password-input"
               />
             </View>
 
@@ -128,6 +130,7 @@ export default function Login() {
               title={t('auth.login')}
               onPress={() => handleSubmit(onLogin)}
               loading={isSubmitting}
+              testID="login-submit-button"
             />
 
             {/* Separator */}
@@ -150,6 +153,7 @@ export default function Login() {
               <TouchableOpacity
                 onPress={() => router.push('/(auth)/register')}
                 accessibilityRole="link"
+                testID="login-register-link"
               >
                 <Text className="font-sans-bold text-base text-primary">
                   {t('auth.register')}

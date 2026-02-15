@@ -158,6 +158,7 @@ export default function ExportData() {
           onPress={handleDownload}
           loading={isDownloading}
           icon="download-outline"
+          testID="export-download-button"
         />
       </View>
     </SafeAreaView>

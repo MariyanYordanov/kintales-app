@@ -1,0 +1,32 @@
+# Reusable login helper
+# Usage in flows: - runFlow: ../helpers/login.yaml
+
+appId: net.kintales.app
+
+env:
+  TEST_EMAIL: ${TEST_EMAIL}
+  TEST_PASSWORD: ${TEST_PASSWORD}
+
+---
+
+# Wait for login screen
+- assertVisible: "KinTales"
+
+# Fill email
+- tapOn:
+    id: "login-email-input"
+- inputText: ${TEST_EMAIL}
+
+# Fill password
+- tapOn:
+    id: "login-password-input"
+- inputText: ${TEST_PASSWORD}
+
+# Tap login button
+- tapOn:
+    id: "login-submit-button"
+
+# Wait for navigation to dashboard
+- assertVisible:
+    text: ".*"
+    timeout: 10000

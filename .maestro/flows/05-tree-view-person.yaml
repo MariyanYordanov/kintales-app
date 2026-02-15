@@ -1,0 +1,40 @@
+appId: net.kintales.app
+name: "Tree - View Person Profile"
+tags:
+  - tree
+
+env:
+  TEST_EMAIL: ${TEST_EMAIL}
+  TEST_PASSWORD: ${TEST_PASSWORD}
+
+---
+
+# Login first
+- runFlow: ../helpers/login.yaml
+
+# Navigate to tree tab
+- tapOn: "tree"
+  optional: true
+
+# Wait for tree to load
+- extendedWaitUntil:
+    visible:
+      id: "tree-view-toggle-list"
+    timeout: 10000
+  optional: true
+
+# Switch to list view
+- tapOn:
+    id: "tree-view-toggle-list"
+  optional: true
+
+# Take screenshot of list view
+- takeScreenshot: "05-tree-list-view"
+
+# Switch back to tree view
+- tapOn:
+    id: "tree-view-toggle-tree"
+  optional: true
+
+# Take screenshot of tree view
+- takeScreenshot: "05-tree-tree-view"

@@ -131,6 +131,7 @@ export default function ForgotPassword() {
               autoComplete="email"
               returnKeyType="done"
               onSubmitEditing={() => handleSubmit(onSubmit)}
+              testID="forgot-email-input"
             />
 
             <View className="mt-4">
@@ -138,6 +139,7 @@ export default function ForgotPassword() {
                 title={t('auth.sendResetLink')}
                 onPress={() => handleSubmit(onSubmit)}
                 loading={isSubmitting}
+                testID="forgot-submit-button"
               />
             </View>
           </View>

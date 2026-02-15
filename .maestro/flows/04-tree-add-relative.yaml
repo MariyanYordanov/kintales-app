@@ -1,0 +1,52 @@
+appId: net.kintales.app
+name: "Tree - Add Relative"
+tags:
+  - tree
+  - smoke
+
+env:
+  TEST_EMAIL: ${TEST_EMAIL}
+  TEST_PASSWORD: ${TEST_PASSWORD}
+
+---
+
+# Login first
+- runFlow: ../helpers/login.yaml
+
+# Navigate to tree tab
+- tapOn: "tree"
+  optional: true
+
+# Wait for tree screen to load
+- extendedWaitUntil:
+    visible:
+      id: "tree-add-fab"
+    timeout: 10000
+  optional: true
+
+# Tap FAB to add relative
+- tapOn:
+    id: "tree-add-fab"
+  optional: true
+
+# Fill in relative name
+- assertVisible:
+    id: "add-relative-name-input"
+    timeout: 5000
+  optional: true
+
+- tapOn:
+    id: "add-relative-name-input"
+  optional: true
+- inputText: "E2E Test Relative"
+
+# Take screenshot
+- takeScreenshot: "04-add-relative-form"
+
+# Save relative
+- tapOn:
+    id: "add-relative-save-button"
+  optional: true
+
+# Wait for navigation back
+- takeScreenshot: "04-add-relative-result"

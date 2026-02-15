@@ -327,6 +327,7 @@ export default function Feed() {
             }}
             accessibilityRole="button"
             accessibilityLabel={t('stories.newStory')}
+            testID="feed-create-fab"
           >
             <Ionicons name="add" size={28} color="#FFFFFF" />
           </TouchableOpacity>

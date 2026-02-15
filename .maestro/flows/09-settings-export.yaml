@@ -1,0 +1,37 @@
+appId: net.kintales.app
+name: "Settings - Export Data"
+tags:
+  - settings
+
+env:
+  TEST_EMAIL: ${TEST_EMAIL}
+  TEST_PASSWORD: ${TEST_PASSWORD}
+
+---
+
+# Login first
+- runFlow: ../helpers/login.yaml
+
+# Navigate to profile tab
+- tapOn: "profile"
+  optional: true
+
+# Wait for profile to load
+- assertVisible:
+    id: "profile-export-link"
+    timeout: 10000
+
+# Navigate to export data screen
+- tapOn:
+    id: "profile-export-link"
+
+# Wait for export screen
+- assertVisible:
+    id: "export-download-button"
+    timeout: 5000
+
+# Take screenshot of export screen
+- takeScreenshot: "09-export-data-screen"
+
+# Note: We don't actually trigger download in E2E
+# as it requires a real server with data

@@ -163,6 +163,7 @@ export default function Tree() {
             accessibilityRole="button"
             accessibilityState={{ selected: viewMode === 'tree' }}
             accessibilityLabel={t('tree.viewTree')}
+            testID="tree-view-toggle-tree"
           >
             <Text
               className={`text-sm ${viewMode === 'tree' ? 'text-white font-sans-semibold' : 'text-text-secondary font-sans-medium'}`}
@@ -176,6 +177,7 @@ export default function Tree() {
             accessibilityRole="button"
             accessibilityState={{ selected: viewMode === 'list' }}
             accessibilityLabel={t('tree.viewList')}
+            testID="tree-view-toggle-list"
           >
             <Text
               className={`text-sm ${viewMode === 'list' ? 'text-white font-sans-semibold' : 'text-text-secondary font-sans-medium'}`}
@@ -238,6 +240,7 @@ export default function Tree() {
           }}
           accessibilityRole="button"
           accessibilityLabel={t('tree.addRelative')}
+          testID="tree-add-fab"
         >
           <Ionicons name="add" size={28} color="#FFFFFF" />
         </TouchableOpacity>
